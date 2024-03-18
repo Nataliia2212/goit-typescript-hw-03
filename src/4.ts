@@ -7,8 +7,8 @@ class Key {
 }
 
 class Person {
-  constructor(private key: object) {}
-  getKey(): object {
+  constructor(private key: Key) {}
+  getKey(): Key {
     console.log(this.key);
     return this.key;
   }
@@ -17,25 +17,20 @@ class Person {
 abstract class House {
   private tenants: Person[] = [];
   protected door: boolean = false;
-  constructor(key: object) {}
+  constructor(readonly key: Key) {}
 
-  comeIn(key: object) {
+  comeIn(person: Person) {
     if (this.door) {
-      const tenant = new Person(key);
-      this.tenants.push(tenant);
-      console.log(this.tenants);
+      this.tenants.push(person);
     }
   }
 
-  public abstract OpenDoor(personKey: object): boolean;
+  public abstract OpenDoor(personKey: Key): boolean;
 }
 
 class MyHouse extends House {
-  constructor(key: object) {
-    super(key);
-  }
-  public OpenDoor(personKey: object): boolean {
-    if (personKey === key) {
+  public OpenDoor(personKey: Key): boolean {
+    if (personKey.getSignature === this.key.getSignature) {
       return true;
     }
     return false;
