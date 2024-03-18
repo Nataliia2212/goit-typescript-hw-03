@@ -30,10 +30,10 @@ abstract class House {
 
 class MyHouse extends House {
   public OpenDoor(personKey: Key): boolean {
-    if (personKey.getSignature === this.key.getSignature) {
-      return true;
+    if (personKey.getSignature() === this.key.getSignature()) {
+      return (this.door = true);
     }
-    return false;
+    return (this.door = false);
   }
 }
 
